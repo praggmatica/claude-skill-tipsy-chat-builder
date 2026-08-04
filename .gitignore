@@ -1,0 +1,8 @@
+# built skill packages are attached to github releases, never committed
+*.skill
+dist/
+node_modules
+
+# os junk
+.DS_Store
+Thumbs.db

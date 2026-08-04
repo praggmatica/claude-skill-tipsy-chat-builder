@@ -1,0 +1,122 @@
+name: Skill CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  file-hygiene:
+    name: File Hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for CRLF line endings
+        run: |
+          FAILED=0
+          while IFS= read -r file; do
+            if file "$file" | grep -q 'CRLF'; then
+              echo "::error file=$file::CRLF line endings found — use LF only"
+              FAILED=1
+            fi
+          done < <(git ls-files | grep -vE '\.(png|jpg|jpeg|gif|webp|ico|woff2?|ttf|eot|zip|pdf)$')
+          exit $FAILED
+
+      - name: Check for trailing whitespace
+        run: |
+          FAILED=0
+          while IFS= read -r file; do
+            if grep -nE ' +$' "$file" > /dev/null 2>&1; then
+              LINE=$(grep -nE ' +$' "$file" | head -1 | cut -d: -f1)
+              echo "::error file=$file,line=$LINE::Trailing whitespace found"
+              FAILED=1
+            fi
+          done < <(git ls-files | grep -vE '\.(png|jpg|jpeg|gif|webp|ico|woff2?|ttf|eot|zip|pdf)$')
+          exit $FAILED
+
+      - name: Check for single trailing newline
+        run: |
+          FAILED=0
+          while IFS= read -r file; do
+            if [ -s "$file" ]; then
+              if [ "$(tail -c 1 "$file" | wc -l)" -eq 0 ]; then
+                echo "::error file=$file::Missing trailing newline"
+                FAILED=1
+              elif [ -z "$(tail -c 2 "$file" | head -c 1)" ] && [ "$(wc -c < "$file")" -gt 1 ]; then
+                echo "::error file=$file::Multiple trailing newlines"
+                FAILED=1
+              fi
+            fi
+          done < <(git ls-files | grep -vE '\.(png|jpg|jpeg|gif|webp|ico|woff2?|ttf|eot|zip|pdf)$')
+          exit $FAILED
+
+      - name: Check for valid UTF-8
+        run: |
+          FAILED=0
+          while IFS= read -r file; do
+            if ! iconv -f UTF-8 -t UTF-8 "$file" > /dev/null 2>&1; then
+              echo "::error file=$file::File is not valid UTF-8"
+              FAILED=1
+            fi
+          done < <(git ls-files | grep -vE '\.(png|jpg|jpeg|gif|webp|ico|woff2?|ttf|eot|zip|pdf)$')
+          exit $FAILED
+
+  validate-skills:
+    name: Validate SKILL Files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      # canonical copy lives in code-helper/scripts/validate-skills.py;
+      # this repo vendors it under .github/scripts so CI needs no private checkout
+      - name: Validate skill files
+        run: python .github/scripts/validate-skills.py .
+
+  yaml-lint:
+    name: Lint Frontmatter & YAML
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Lint YAML files
+        run: |
+          yamllint -d "{extends: default, rules: {line-length: {max: 120}, document-start: disable, truthy: disable}}" \
+            $(git ls-files '*.yml' '*.yaml') || exit 1
+
+      - name: Lint SKILL.md frontmatter
+        run: |
+          FAILED=0
+          while IFS= read -r file; do
+            FRONTMATTER=$(awk '/^---$/{n++; next} n==1{print} n==2{exit}' "$file")
+            if [ -z "$FRONTMATTER" ]; then
+              echo "::error file=$file::No YAML frontmatter block found"
+              FAILED=1
+              continue
+            fi
+            if ! echo "$FRONTMATTER" | yamllint -d "{extends: default, rules: {line-length: {max: 1100}, document-start: disable, truthy: disable}}" - ; then
+              echo "::error file=$file::Frontmatter failed yamllint"
+              FAILED=1
+            fi
+          done < <(git ls-files '*SKILL.md' 'SKILL.md' '**/SKILL.md' | sort -u)
+          exit $FAILED

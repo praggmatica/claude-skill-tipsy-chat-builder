@@ -1,0 +1,86 @@
+name: Bug report
+description: Something in the skill is wrong, out of date, or will not load.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this when the skill itself is at fault: guidance that is wrong or stale, a reference file that contradicts itself, an instruction that cannot be followed, or a package that will not install or trigger.
+
+        If your character or World is misbehaving and the skill's guidance looks correct, that is not a bug. Post it in [Build help](../../discussions/categories/build-help) instead.
+
+        Keep this report work-safe regardless of your build's rating. Describe the mechanic, not the content.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem
+      options:
+        - Guidance is wrong or out of date
+        - Tipsy changed a field, cap, or picklist and the skill still describes the old one
+        - A reference file contradicts itself or another file
+        - An instruction cannot be followed as written
+        - The skill will not install, load, or trigger
+        - Broken link or malformed file
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Release tag
+      description: The release you installed, for example v1.0.0.
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Where you run the skill
+      options:
+        - claude.ai web
+        - Claude desktop app
+        - Claude mobile app
+        - Claude Code
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: File and section
+      description: For example, references/characters.md, "Banding closeness". Leave blank if the skill will not load at all.
+    validations:
+      required: false
+  - type: textarea
+    id: says
+    attributes:
+      label: What the skill says
+      description: Quote the relevant lines.
+      render: text
+    validations:
+      required: false
+  - type: textarea
+    id: actual
+    attributes:
+      label: What is actually true
+      description: What you see in the Tipsy editor or Studio, or what actually happened. A screenshot of the editor is the strongest evidence for a changed cap, field name, or picklist.
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: What it cost you
+      description: What the wrong guidance produced. A rejected review, a field over the cap, a rule that never fired.
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I am on the latest release, or I have said above which one I am on and why.
+          required: true
+        - label: I searched existing issues.
+          required: true
+        - label: This report is work-safe.
+          required: true

@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Build help
+    url: https://github.com/praggmatica/claude-skill-tipsy-chat-builder/discussions/categories/build-help
+    about: Your character or World is misbehaving. Start here, not in issues.
+  - name: Report a Tipsy platform change
+    url: https://github.com/praggmatica/claude-skill-tipsy-chat-builder/discussions/categories/platform-changes
+    about: Field names, caps, and picklists change without notice. Tell us what you are seeing.
+  - name: Ideas and general discussion
+    url: https://github.com/praggmatica/claude-skill-tipsy-chat-builder/discussions
+    about: Anything you want to think through before filing.

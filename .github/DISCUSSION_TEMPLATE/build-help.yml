@@ -1,0 +1,59 @@
+title: "[Build help] "
+labels: ["build help"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Keep this post work-safe regardless of your build's rating. Describe the mechanic, not the content.
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Which surface
+      options:
+        - Character
+        - World (Studio)
+        - Not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: rating
+    attributes:
+      label: Rating
+      options:
+        - SFW
+        - Limitless
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Release tag
+      description: The release you installed, for example v1.0.0. Check your skills list if you are not sure.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What it does instead
+      description: What you expected, what actually happened, and roughly how many exchanges in.
+    validations:
+      required: true
+  - type: textarea
+    id: fields
+    attributes:
+      label: The relevant fields, complete
+      description: Paste each field whole, labelled with the editor's name for it. Not a fragment.
+      render: text
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before posting
+      options:
+        - label: I started a fresh chat after my last edit and the behavior persisted.
+          required: true
+        - label: I checked references/failure-modes.md.
+          required: false
+        - label: This post is work-safe.
+          required: true

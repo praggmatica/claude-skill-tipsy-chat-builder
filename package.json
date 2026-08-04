@@ -1,0 +1,15 @@
+{
+  "name": "claude-skill-tipsy-chat-builder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Claude Agent Skill: Tipsy chat builder",
+  "license": "CC-BY-SA-4.0",
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "validate": "npm run validate:skills",
+    "validate:skills": "python3 .github/scripts/validate-skills.py ."
+  }
+}
