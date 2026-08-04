@@ -21,8 +21,13 @@ git clone https://github.com/praggmatica/claude-skill-tipsy-chat-builder.git \
     ~/.claude/skills/tipsy-chat-builder
 ```
 
-Or download a [release](https://github.com/praggmatica/claude-skill-tipsy-chat-builder/releases)
-and extract it to `~/.claude/skills/tipsy-chat-builder/`.
+Or download `tipsy-chat-builder.skill` from the latest
+[release](https://github.com/praggmatica/claude-skill-tipsy-chat-builder/releases) — it is a zip
+archive — and extract it:
+
+```bash
+unzip tipsy-chat-builder.skill -d ~/.claude/skills/tipsy-chat-builder
+```
 
 ### Claude Code — project skill (available in one project)
 
@@ -39,10 +44,10 @@ repository.
 
 ### claude.ai (web and desktop apps)
 
-1. Download the latest [release](https://github.com/praggmatica/claude-skill-tipsy-chat-builder/releases)
-   zip (or zip the repository contents yourself — `SKILL.md` must sit at the top level of the zip).
+1. Download `tipsy-chat-builder.skill` from the latest
+   [release](https://github.com/praggmatica/claude-skill-tipsy-chat-builder/releases).
 2. In Claude, open **Settings → Capabilities → Skills**.
-3. Click **Upload skill** and select the zip.
+3. Click **Upload skill** and select the `.skill` file.
 4. Toggle the skill on.
 
 ### Verify the install
