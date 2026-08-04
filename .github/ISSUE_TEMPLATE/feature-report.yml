@@ -5,12 +5,17 @@ labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
-      value: |
+      value: >-
         Use this for a gap: something the skill should tell you and currently does not.
 
-        If you are not sure what the fix should be yet, and you want to talk it through first, start in [Ideas](../../discussions/categories/ideas). Requests that arrive already tested against a live build are the ones that get in fastest.
 
-        Keep this request work-safe regardless of your build's rating. Describe the mechanic, not the content.
+        If you are not sure what the fix should be yet, and you want to talk it through first,
+        start in [Ideas](../../discussions/categories/ideas). Requests that arrive already tested
+        against a live build are the ones that get in fastest.
+
+
+        Keep this request work-safe regardless of your build's rating. Describe the mechanic, not
+        the content.
   - type: dropdown
     id: kind
     attributes:
@@ -53,7 +58,10 @@ body:
     id: evidence
     attributes:
       label: Have you tested this
-      description: Did you run it in a live build, and what changed? This skill is built out of observed behavior rather than theory, so a tested fix carries far more weight than a plausible one. Say so plainly if it is untested.
+      description: >-
+        Did you run it in a live build, and what changed? This skill is built out of observed
+        behavior rather than theory, so a tested fix carries far more weight than a plausible one.
+        Say so plainly if it is untested.
     validations:
       required: true
   - type: checkboxes

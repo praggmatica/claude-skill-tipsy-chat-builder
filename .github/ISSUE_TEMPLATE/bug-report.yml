@@ -5,12 +5,18 @@ labels: ["bug"]
 body:
   - type: markdown
     attributes:
-      value: |
-        Use this when the skill itself is at fault: guidance that is wrong or stale, a reference file that contradicts itself, an instruction that cannot be followed, or a package that will not install or trigger.
+      value: >-
+        Use this when the skill itself is at fault: guidance that is wrong or stale, a reference
+        file that contradicts itself, an instruction that cannot be followed, or a package that
+        will not install or trigger.
 
-        If your character or World is misbehaving and the skill's guidance looks correct, that is not a bug. Post it in [Build help](../../discussions/categories/build-help) instead.
 
-        Keep this report work-safe regardless of your build's rating. Describe the mechanic, not the content.
+        If your character or World is misbehaving and the skill's guidance looks correct, that is
+        not a bug. Post it in [Build help](../../discussions/categories/build-help) instead.
+
+
+        Keep this report work-safe regardless of your build's rating. Describe the mechanic, not
+        the content.
   - type: dropdown
     id: kind
     attributes:
@@ -48,7 +54,9 @@ body:
     id: location
     attributes:
       label: File and section
-      description: For example, references/characters.md, "Banding closeness". Leave blank if the skill will not load at all.
+      description: >-
+        For example, references/characters.md, "Banding closeness". Leave blank if the skill will
+        not load at all.
     validations:
       required: false
   - type: textarea
@@ -63,7 +71,9 @@ body:
     id: actual
     attributes:
       label: What is actually true
-      description: What you see in the Tipsy editor or Studio, or what actually happened. A screenshot of the editor is the strongest evidence for a changed cap, field name, or picklist.
+      description: >-
+        What you see in the Tipsy editor or Studio, or what actually happened. A screenshot of the
+        editor is the strongest evidence for a changed cap, field name, or picklist.
     validations:
       required: true
   - type: textarea
