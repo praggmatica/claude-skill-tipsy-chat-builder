@@ -11,6 +11,10 @@ Checks every SKILL.md against the Agent Skills format:
   - body is non-empty and relative file references resolve
   - warns when the body exceeds the recommended 500 lines
 
+Also lints every .yml/.yaml file in the repository so pushes do not fail CI:
+  - valid UTF-8 and parseable YAML syntax
+  - maximum 120-character lines
+
 Exits non-zero when any error is found. Warnings never fail the build.
 Output uses GitHub Actions workflow annotations.
 
@@ -31,6 +35,7 @@ NAME_PATTERN = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
 NAME_MAX_LENGTH = 64
 DESCRIPTION_MAX_LENGTH = 1024
 RECOMMENDED_MAX_BODY_LINES = 500
+YAML_MAX_LINE_LENGTH = 120
 EXCLUDED_DIRS = {'.git', 'node_modules', 'vendor', 'dist', 'build', '.code-helper'}
 
 # fields accepted by the agent skills spec and the claude code runtime
@@ -243,21 +248,68 @@ def validate_skill(path):
     return (errors, warnings)
 
 
+def find_yaml_files(root):
+    """
+    Locate every .yml/.yaml file under the given root, skipping excluded directories.
+
+    @since 1.1.0
+    @param root Path repository root to scan
+    @return list of Path objects, sorted for stable output
+    """
+    results = []
+    for pattern in ('*.yml', '*.yaml'):
+        for path in root.rglob(pattern):
+            if not EXCLUDED_DIRS.intersection(part for part in path.parts):
+                results.append(path)
+    return sorted(results)
+
+
+def lint_yaml_file(path):
+    """
+    Lint a single YAML file: valid UTF-8, parseable syntax, max line length.
+
+    @since 1.1.0
+    @param path Path YAML file to lint
+    @return list of error messages
+    """
+    errors = []
+    try:
+        text = path.read_text(encoding='utf-8')
+    except UnicodeDecodeError:
+        return ['file is not valid UTF-8']
+    try:
+        list(yaml.safe_load_all(text))
+    except yaml.YAMLError as exc:
+        errors.append(f'not valid YAML: {exc}')
+    for number, line in enumerate(text.splitlines(), start=1):
+        if len(line) > YAML_MAX_LINE_LENGTH:
+            errors.append(f'line {number} too long ({len(line)} > {YAML_MAX_LINE_LENGTH} characters)')
+    return errors
+
+
 def main():
     """
-    Entry point: validate every SKILL.md and report results.
+    Entry point: validate every SKILL.md, lint every YAML file, report results.
 
     @since 1.0.0
     @return int process exit code
     """
     root = Path(sys.argv[1]) if len(sys.argv) > 1 else Path('.')
-    skill_files = find_skill_files(root)
+    total_errors = 0
 
+    yaml_files = find_yaml_files(root)
+    for path in yaml_files:
+        errors = lint_yaml_file(path)
+        rel = path.relative_to(root)
+        for message in errors:
+            annotate('error', rel, message)
+        if errors:
+            print(f'[FAIL] {rel} ({len(errors)} errors)')
+        total_errors += len(errors)
+
+    skill_files = find_skill_files(root)
     if not skill_files:
         print('::notice::No SKILL.md files found — nothing to validate yet.')
-        return 0
-
-    total_errors = 0
     for path in skill_files:
         errors, warnings = validate_skill(path)
         rel = path.relative_to(root)
@@ -269,7 +321,10 @@ def main():
         print(f'[{status}] {rel} ({len(errors)} errors, {len(warnings)} warnings)')
         total_errors += len(errors)
 
-    print(f'\nValidated {len(skill_files)} skill file(s), {total_errors} error(s).')
+    print(
+        f'\nChecked {len(yaml_files)} YAML file(s) and {len(skill_files)} skill file(s), '
+        f'{total_errors} error(s).'
+    )
     return 1 if total_errors else 0
 
 

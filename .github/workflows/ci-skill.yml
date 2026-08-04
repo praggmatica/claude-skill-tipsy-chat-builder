@@ -106,6 +106,7 @@ jobs:
 
       - name: Lint SKILL.md frontmatter
         run: |
+          CFG="{extends: default, rules: {line-length: {max: 1100}, document-start: disable, truthy: disable}}"
           FAILED=0
           while IFS= read -r file; do
             FRONTMATTER=$(awk '/^---$/{n++; next} n==1{print} n==2{exit}' "$file")
@@ -114,7 +115,7 @@ jobs:
               FAILED=1
               continue
             fi
-            if ! echo "$FRONTMATTER" | yamllint -d "{extends: default, rules: {line-length: {max: 1100}, document-start: disable, truthy: disable}}" - ; then
+            if ! echo "$FRONTMATTER" | yamllint -d "$CFG" - ; then
               echo "::error file=$file::Frontmatter failed yamllint"
               FAILED=1
             fi
