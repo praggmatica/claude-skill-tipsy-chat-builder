@@ -23,7 +23,7 @@ the field that is missing.
 | Description | 100,000 | yes, always | required, on the card and at the top of chat |
 | Opening | 20,000 | yes | required |
 | Background | 1,000,000 | toggle, default off | placeholder reads "your characters'", plural |
-| TXT / JSON upload | 2MB each, 10 files | unclear | lore ingestion, not a text field |
+| File upload | 2MB each, 10 files | no, private | JSON only, never TXT, retrieved only when relevant, see `references/knowledge-files.md` |
 | Rating | n/a | n/a | Limited or Limitless, required |
 | Visibility | n/a | n/a | Public or Private, required |
 | Tag | 10 | yes | same rating-dependent picklist |
@@ -138,6 +138,81 @@ takes whose side by default.
 **Momentum.** Container Background and every member's Reply Settings. The
 container is where you say who acts at two, otherwise every card acts at once.
 
+## Knowledge files across a cast
+
+Files reintroduce the problem the missing Reply Settings field creates, in a
+field the shared conventions contract does not cover.
+
+Every member is a published single character that may carry its own files, and
+the container has an upload field of its own. **Nobody has confirmed whether a
+member's files reach the ensemble scene, or whether the container's files do.**
+Both unknowns bite:
+
+- If member files travel, a four member cast carrying four world files means
+  four overlapping key sets firing at once, several near-identical entries
+  about the same place competing for one budget, and any drift between
+  members' versions of shared lore surfacing as the cast contradicting each
+  other about their own world.
+- If member files do not travel, lore a member depends on silently vanishes in
+  the ensemble, and that member behaves differently there than it does solo.
+  That is the conventions-contract bug again, in a place the contract cannot
+  reach.
+
+### Test it, it takes ten minutes
+
+Two tests, because there are two unknowns. Run both before designing around
+either.
+
+**Does a member's file travel?** Publish a throwaway single character carrying
+one file with one entry, keyed on an invented token no model could guess, whose
+content states a checkable fact. Attach it to a two member container and put no
+file on the container. Fresh chat, then ask out of character about the token. A
+correct answer means member files travel.
+
+**Does the container's file reach the scene at all?** Same setup inverted. The
+file goes on the container only, no files on any member, invented token again,
+fresh chat, ask. A correct answer means container files work, which is the more
+fundamental of the two and worth confirming before relying on the container as
+the canonical home.
+
+### Placement until the results are in
+
+The rule turns on whether the cast members are also meant to be chatted with
+solo, so settle that at ensemble design time along with the rating.
+
+**Cast assembled only, never played solo.** World file on the container, no
+files on any member. This is correct whichever way the first test lands, so it
+needs no result, and it is the reason to prefer a purpose-built cast when the
+choice is open.
+
+**Members also played solo.** Give each member the slice of the world its own
+solo build actually needs, give the container the full world file, and make any
+entry that appears in more than one place byte identical. If container files
+work and member files do not travel, this is exactly right and the duplication
+costs nothing, because the two copies never coexist. If member files do travel,
+the cost is limited to the overlapping entries only, which is why the slices
+should be as small as each solo build tolerates.
+
+Either way, author one canonical world file and cut member slices from it.
+Never write a member's file separately, because separately authored lore drifts
+and drift is the failure that reads as the cast arguing about their own world.
+
+### Keys across cards
+
+The within-file collision sweep in `references/knowledge-files.md` becomes a
+cross-card sweep here. Two members keying the same word is invisible from
+inside either file and only shows up in play. List every key across every card
+at once. Where two cards legitimately need the same word, the entries behind it
+should be the same entry.
+
+### Editing compounds
+
+A shared world file changing is not one re-upload, it is one per card that
+carries it, plus a republish each, plus the fresh chat rule for every build any
+of those members appears in. Whether Tipsy replaces a file of the same name or
+requires deleting the old one first is unconfirmed, so tell the user to check
+rather than assuming the upload overwrites.
+
 ## Ratings, publishing, and spoilers
 
 - Public stories can only include published characters, so a private cast member
@@ -191,3 +266,11 @@ assumed:
   itself, or simply marks the lead among the attached cast.
 - Whether Conversation Style also applies to single-character builds, and what
   each setting actually changes.
+- Whether a member's knowledge files reach the ensemble scene, and whether the
+  container's own files do. Both are testable in ten minutes, see above.
+- Whether uploading a file of the same name replaces the previous one or
+  requires deleting it first.
+- Whether review reads file contents. They are private to players, which is not
+  the same as being outside the rating. Until this is answered, do not treat a
+  private file as a safe harbour for content the build's rating does not
+  allow.

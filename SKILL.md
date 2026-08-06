@@ -1,6 +1,6 @@
 ---
 name: tipsy-chat-builder
-description: Build single characters, Multi-character ensemble builds, and interactive story Worlds for Tipsy Chat (tipsy.chat), the AI roleplay platform. Use this whenever the user mentions Tipsy, tipsy.chat, Tipsy Studio, building or editing an AI roleplay character, a character card, a Multi-character build or cast, a "World", or fields like Persona, Greeting, Dialog Style, Reply Settings, Conversation Style, Character List, Example Dialogues, or Role in World. Also use it when they are debugging a bot that rushes its reveal, stalls, loops, runs out of story once its objective is met, has nothing to talk about, waits on the player instead of acting, or drifts from its character sheet, even if they never say the word Tipsy. Covers field-by-field authoring, rule design for multi-act Worlds, image prompting, rating and review compliance, and a catalogue of known failure modes with fixes.
+description: Build single characters, Multi-character ensemble builds, and interactive story Worlds for Tipsy Chat (tipsy.chat), the AI roleplay platform. Use this whenever the user mentions Tipsy, tipsy.chat, Tipsy Studio, building or editing an AI roleplay character, a character card, a Multi-character cast, a "World", uploading a lore or knowledge file or worldbook, or fields like Persona, Greeting, Dialog Style, Reply Settings, Conversation Style, Character List, Example Dialogues, or Role in World. Also use it when they ask about TXT versus JSON attachments, or when a bot rushes its reveal, stalls, loops, runs out of story once its objective is met, has nothing to talk about, waits on the player instead of acting, or drifts from its character sheet, even if they never say the word Tipsy. Covers field-by-field authoring, rule design for multi-act Worlds, JSON knowledge files and the no-TXT rule, image prompting, rating compliance, and known failure modes with fixes.
 ---
 
 # Tipsy Chat Builder
@@ -29,7 +29,8 @@ For field-by-field guidance read `references/characters.md`,
 build needs both of the first two, since every cast member is a single
 character build in its own right. Before shipping anything, read
 `references/failure-modes.md`, which is the most valuable file here. Read
-`references/images.md` when generating art.
+`references/images.md` when generating art, and
+`references/knowledge-files.md` before touching the file upload field.
 
 ## The five principles
 
@@ -133,11 +134,14 @@ him initiate, it is to band it. See "Banding closeness".
 ## Build order
 
 For characters: concept, then rating, then images, then Description, Greeting,
-Background, Example Dialogues, Reply Settings, Categories.
+Background, knowledge files, Example Dialogues, Reply Settings, Categories.
+Files sit after Background because writing the world file is what tells you
+what Background does not need to carry.
 
-For Multi-character: ensemble design, then the shared conventions contract,
-then each member built and published as a full single character, then the
-container. Members before container, always. See
+For Multi-character: ensemble design, then the shared artifacts, meaning the
+conventions contract and the world file both, then each member built and
+published as a full single character, then the container. Members before
+container, always, and shared artifacts before members. See
 `references/multi-character.md`.
 
 For Worlds: premise, then the core mechanic (the one repeated player choice
@@ -166,6 +170,8 @@ in four messages.
   1000.
 - Categories: up to 10.
 - Images: at least 768 x 1360, and use the platform's upscale on upload.
+- Knowledge file uploads: 2MB each, 10 files. JSON only, never TXT. Private,
+  and retrieved only when relevant. See "Uploaded knowledge files" below.
 - Token budget: Tipsy's own guidance recommends 700 to 800 tokens across
   personality and example dialogue combined, warning that too many causes
   short-term memory loss. That number predates their context length controls
@@ -211,6 +217,50 @@ early. See `references/worlds.md`.
 Never put a real person's likeness in an image prompt or a public field.
 Describe the features instead.
 
+## Uploaded knowledge files: JSON only, never TXT
+
+Hard rule, no exceptions, and it holds until Tipsy says the underlying problem
+is fixed. Any lore file attached to a build is `.json`. Never `.txt`, and never
+a JSON object saved with a `.txt` extension, which is the version that catches
+people out because the content looks right.
+
+Creator testing puts the plain text ingestion penalty at roughly 15x the file's
+own token count, charged on top of everything already in the character's
+fields. A 2,000 token text file, about 5 to 6 KB, takes a 2,000 token character
+to near 32,000 tokens of context. Every player pays that in gems on every
+message, and the creator pays it worst while testing. The same object in a
+`.json` file does not bloat at all.
+
+So when a user asks for a text file, do not make one. Say why, hand back JSON,
+and offer a Markdown copy they keep locally as the readable version that never
+gets uploaded.
+
+A file surfaces only when the conversation makes it relevant, so an entry
+nobody triggers costs nothing and breadth is close to free. The flip side is
+that presence is never guaranteed, and that decides what may live there.
+Nothing load bearing goes in a file: not the reveal timing, the gates, the
+trackers, the notation and perception rules, the closeness ladder, the
+post-objective rotation, or momentum. Those stay in fields, which are read
+every turn. A gate in a file is a gate that opens whenever retrieval misses.
+
+Files hold incidental breadth instead: places, minor cast, history,
+inventories, the contents of a shop. Contents are private, confirmed, so a file
+is a safe home for the lore behind a secret even though the rule that governs
+the reveal is not. Write every entry to stand alone, since it arrives without
+the rest of the file around it, and key it on the words a player would actually
+type rather than the name you gave it.
+
+Write the file in SillyTavern's World Info format, which is what creators are
+exporting and passing around: an `entries` object keyed by stringified index,
+each entry carrying a `key` list of triggers and a `content` value that is the
+only text reaching the model. Assume Tipsy honours `key` and `content` and
+nothing else, so set the rest correctly but never build a beat that depends on
+`constant`, `probability`, or inclusion groups.
+
+Most builds need no file at all. If the lore fits in Background, put it in
+Background. The full field reference, key hygiene, a worked example, testing,
+and the re-test triggers are in `references/knowledge-files.md`.
+
 ## Delivering fields
 
 Hard rule, no exceptions. Every field you touch comes back complete and ready
@@ -240,6 +290,13 @@ start here.
 The same applies to World rules. A changed rule comes back as its complete
 rule text under its operator key, not as an instruction to amend the existing
 one.
+
+Knowledge files follow the same rule in their own shape. A file comes back as
+complete valid JSON, one block per file the user will upload, named as the file
+should be saved, with the card it uploads to stated above it. Never a single
+entry on its own, never "add this entry to your existing file", since the user
+would be hand-splicing JSON inside a format where one stray comma makes the
+whole file unparseable. If one entry changed, the whole file comes back.
 
 ## Checking your work
 
@@ -279,8 +336,17 @@ Before handing fields back, verify:
   wants to do, the build is not finished.
 - The character has at least six opinions and three wants that have nothing to
   do with the player. Count them.
+- No `.txt` file anywhere in the build, including JSON content wearing a `.txt`
+  extension. Every uploaded file is valid JSON and parses, holds nothing load
+  bearing, contradicts no text field, and has entries that name their own
+  subject in a full sentence and carry the words a player would actually type.
 - On a Multi-character build: every member's Reply Settings carries the shared
   conventions contract word for word, every block handed back names the card it
   is pasted into, the publish order puts members before the container, the
   container caps how many cast members speak per response, and at least three
   standing disagreements are named.
+- On any build with knowledge files, list every key across every entry and find
+  the repeats. On a Multi-character build do this across all the cards at once,
+  not one card at a time, since two members keying the same word is invisible
+  from inside either file. Any entry appearing in more than one place is byte
+  identical.

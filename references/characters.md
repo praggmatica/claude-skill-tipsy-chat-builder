@@ -2,7 +2,8 @@
 
 Field names have changed over time. As of August 2026 the editor shows:
 Name (50), Type, Main Character Gender, Description (100,000), Opening
-(20,000), Background (1,000,000), a TXT/JSON upload, Rating, Visibility, Tag,
+(20,000), Background (1,000,000), a file upload that accepts TXT and JSON but
+should only ever be given JSON, Rating, Visibility, Tag,
 then under More Settings, Conversation Style, Example Dialogues (20,000), and
 Reply Settings (2000). Older documentation calls these Tagline, Greeting, and
 Personality. Ask the user what they see rather than assuming.
@@ -179,6 +180,49 @@ with another field or with the art.
 
 A closed list, with "never invent new ones", is the reliable way to keep a
 model from generating new lore. Open categories get filled.
+
+## Knowledge file upload
+
+Sits under Background in the editor and takes 10 files at 2MB each. It accepts
+TXT and it should never be given TXT, because plain text ingestion inflates the
+character's context by roughly 15x the file's token count and the user pays
+that in gems on every message. JSON only, always. Full reasoning, structure,
+and worked examples are in `references/knowledge-files.md`, which you read
+before writing any file for a build.
+
+Background outranks it for anything the character has to honour, because a
+file is retrieved only when relevant and a field is read every turn. Send only
+incidental breadth to a file, written in SillyTavern's World Info JSON format.
+Contents are private, so lore behind a secret is safe there, but the rule that
+gates the reveal is not.
+
+**The tempting mistake is moving the big Background blocks into it.** Opinions
+and Stories look exactly like retrievable lore, and they are the largest blocks
+on the sheet, so they are the first thing a creator reaches for when a file
+appears. Do not move them. Post-objective mode burns Opinions, Stories, Small
+talk, and Wants, and that rotation is the thing keeping a finished story
+playable. Material that only maybe fires cannot feed a mode the build depends
+on. Fragments has the same problem from the other direction: a closed list
+restrains nothing on the turns it is absent, and the whole point of it is to
+stop the model inventing lore.
+
+So the division is the character versus the world the character stands in.
+Background keeps everything that is him. The file takes the city, the
+workplace, the profession's procedures and jargon, people in his life who never
+appear on screen, the history he would know, the menu, the inventory, the
+neighbours, the events he was not present for.
+
+The one high-value use is depth behind a secret. Files are private, so the war,
+the fall, the bloodline, the thing that happened eleven years ago can all sit
+there in as much detail as you like, while the gate that governs when any of it
+surfaces stays in Reply Settings.
+
+**Never key an entry on the character's own name.** SillyTavern prefixes every
+message in its scan buffer with the speaker's name, and if Tipsy does the same
+then a name-keyed entry fires on every message in the conversation, spends the
+budget, and crowds out whatever was actually relevant. Key on what the
+character is not: the things a player will ask about, not the thing they are
+already talking to.
 
 ## Notation and what the character can hear
 
