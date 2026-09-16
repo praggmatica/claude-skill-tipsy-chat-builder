@@ -12,24 +12,52 @@ persona is authored here.
 That one fact governs everything else in this file. In particular it explains
 the field that is missing.
 
-## Field map, confirmed August 2026
+## Field map, confirmed September 2026
+
+Captured with the Type toggle set to Multi-character. The form is not the
+Character form with one field missing. Four things a single character has are
+absent here: Main Character Gender, HTML Styling, Sound, and Reply Settings.
+One thing is added: the Character List.
 
 | Field | Cap | Public | Notes |
 |---|---|---|---|
-| Character Image | at least 768 x 1360 | yes | upload, generate, or Upload Animation (GIF/MP4, 9:16) |
+| Character images | 10 images, at least 768 x 1360 | yes | upload or generate, reorder, choose main avatar, Watermark toggle default on, see `references/images.md` |
+| Dynamic Cover | GIF, MP4, or WebP, 9:16 | yes | toggle, default off, upload MP4 |
 | Name | 50 | yes | required |
 | Type | n/a | n/a | Character or Multi-character, required |
-| Main Character Gender | n/a | n/a | Male, Female, Non-binary, required |
-| Description | 100,000 | yes, always | required, on the card and at the top of chat |
-| Opening | 20,000 | yes | required |
+| Description | 100,000 | yes, always | required, markdown only, on the card and at the top of chat |
+| Opening | 20,000 | yes | required, markdown only, placeholder asks for quotes and asterisks |
 | Background | 1,000,000 | toggle, default off | placeholder reads "your characters'", plural |
-| File upload | 2MB each, 10 files | no, private | JSON only, never TXT, retrieved only when relevant, see `references/knowledge-files.md` |
+| File upload | 2MB each, 10 files | no, private | always on the form here, JSON only, never TXT, retrieved only when relevant, see `references/knowledge-files.md` |
 | Rating | n/a | n/a | Limited or Limitless, required |
 | Visibility | n/a | n/a | Public or Private, required |
-| Tag | 10 | yes | same rating-dependent picklist |
-| Character List | unconfirmed | yes | the cast, published characters only |
+| Tag | 10 | yes | same rating-dependent picklist, rotating event slot |
+| Character List | at least 2, maximum unconfirmed | yes | required, published characters only for public stories, editor warns that more characters cost more |
 | Conversation Style | n/a | unclear | Default, Safe for Work, Romance, Flirty |
 | Example Dialogues | 20,000 | yes | placeholder still shows `{{char}}:` |
+| Creator's Note | 2,000 | treat as yes | tips for players, see `references/characters.md` |
+
+The Preview pane shows a browse card rather than a chat, so the Opening cannot
+be checked there. Check it in a test chat after publishing privately.
+
+**No HTML Styling.** Description and Opening are plain markdown on a container:
+asterisks for narration, double quotes for speech, `![alt](url)` for images.
+The HTML presentation rules in `references/characters.md` do not apply, and
+neither does the choice between styled fields and knowledge files. A container
+always has its upload field. That makes the container the natural home for an
+ensemble's world file.
+
+**No Sound.** The container has no voice of its own. Whether each member's
+voice, set on its own card, plays in the ensemble scene is untested.
+
+**No Main Character Gender.** The container does not declare a lead. If the
+story has one, say so in the container Background.
+
+**The Character List warns about cost.** The editor reminds creators that too
+many characters affect both experience and cost. Every member is a full card in
+context, so each one added raises what every player pays per message. Two to
+four is the sensible range until a build proves it needs more, and it matches
+the two-or-three-speakers cap under "Turn-taking".
 
 **There is no Reply Settings field.** Conduct is not authored at the container
 level, because each attached character carries its own Reply Settings from its
@@ -44,8 +72,8 @@ thing about the surface and the reason the build order below is not optional.
 
 ## Build order
 
-1. Design the ensemble. Who is in it, whose story it is, who the Main Character
-   is, and what the repeated situation is that keeps producing scenes. Settle
+1. Design the ensemble. Who is in it, whose story it is, who leads it if
+   anyone does, and what the repeated situation is that keeps producing scenes. Settle
    the rating here, first, before anything is created. It cannot be changed
    later, it probably governs which members may be attached, and it is the one
    decision that can strand an entire finished cast.
@@ -95,6 +123,13 @@ principal voices with their own cards.
 - `{{char}}` cannot disambiguate once there is more than one character. In the
   container's Example Dialogues, use literal names on the line starts instead,
   and keep `{{user}}:` as is.
+
+**Voice may complicate this.** Tipsy's guide says double-quoted text is read
+in the main character's voice. The container has no Sound field, and nobody has
+confirmed whether members' own voices follow them into the scene or whether one
+voice reads every quoted line. Keep a name attribution on every spoken line
+regardless, and if any member has a voice set, tell the user to listen to a
+two-speaker exchange in a test chat before publishing.
 
 Put the legend in the container Background as well as in every member's Reply
 Settings. The container's copy is what governs the scene, the members' copies
@@ -253,8 +288,8 @@ does nothing.
 
 ## To confirm in the editor
 
-These were not visible in the create form and should be checked rather than
-assumed:
+These were not visible in the Multi-character form in September 2026 and
+should be checked rather than assumed:
 
 - Maximum cast size.
 - Whether other creators' published characters can be attached, or only your
@@ -262,10 +297,14 @@ assumed:
 - Whether attaching a character exposes any per-member fields, such as a role or
   relationship label.
 - Whether a Limited container can hold Limitless members. The skill assumes not.
-- Whether Main Character Gender describes a persona belonging to the container
-  itself, or simply marks the lead among the attached cast.
-- Whether Conversation Style also applies to single-character builds, and what
-  each setting actually changes.
+- Whether Conversation Style on a container applies its posture to every
+  member, and which wins when a member's own card was published with a
+  different setting. The tooltip for each option is captured in
+  `references/characters.md`.
+- Whether a member's voice, set under Sound on its own card, plays in the
+  ensemble scene, and whose voice reads a quoted line if not.
+- Whether a member's extra images become chat background options inside the
+  ensemble.
 - Whether a member's knowledge files reach the ensemble scene, and whether the
   container's own files do. Both are testable in ten minutes, see above.
 - Whether uploading a file of the same name replaces the previous one or

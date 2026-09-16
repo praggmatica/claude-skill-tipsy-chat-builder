@@ -11,21 +11,22 @@ lives in this repository as a `SKILL.md` file plus supporting reference files, f
   characters assembled into one scene through a Character List), and Studio-built Worlds with
   their own lore, cast, and rule engine. Each has its own field map and build order.
 - **Field-by-field authoring.** Every field on every surface: what it does, its hard character
-  limit, whether it is public, and what belongs in it — including the HTML presentation container
-  for the public fields.
+  limit, whether it is public, and what belongs in it — including HTML Styling tags for the public
+  fields, Creator's Note, Sound, Tag, and the HTML Styling versus knowledge file decision.
 - **Rule design that actually holds.** Five core principles (mechanical gates over negative
   instructions, permitted alternatives for every prohibition, greeting/example reinforcement,
   field-over-rule precedence, session history beating field edits) and the drop-in blocks that
   ship with every build: notation and perception, life after the objective, personality surface,
   and two-exchange momentum.
 - **Knowledge files, JSON only.** The no-TXT rule and the ingestion penalty behind it, the
-  SillyTavern World Info format, retrieval-first entry design, key hygiene, and what must never
-  live in a file.
+  SillyTavern World Info format, retrieval-first entry design, key hygiene, what must never
+  live in a file, and why HTML Styling removes the upload field.
 - **Known failure modes with fixes.** Stalling, looping, rushed reveals, character drift, player
   insert problems, structural contradictions, and the Multi-character variants of each.
-- **Image prompting.** Platform requirements, prompt syntax, writing exclusions without a
-  negative prompt, working from reference images, and image rules in Worlds.
-- **Rating compliance and spoiler surfaces.** SFW versus Limitless, which fields are public,
+- **Image sets and Dynamic Covers.** Platform requirements, the ten-image set, watermarks, prompt
+  shape, writing exclusions without a negative prompt, editing from the approved card, animated
+  cover prompts, and image rules in Worlds.
+- **Rating compliance and spoiler surfaces.** Limited versus Limitless, which fields are public,
   where secrets can safely live, and how to write a publish announcement that gives nothing away.
 - **A delivery contract.** Every field comes back complete and pasteable — one labelled code
   block per field, character counts on the capped ones, never a patch or a fragment.
@@ -35,11 +36,11 @@ lives in this repository as a `SKILL.md` file plus supporting reference files, f
 | File | Covers |
 |---|---|
 | `SKILL.md` | Core workflow: surfaces, principles, mandatory blocks, build order, limits, ratings, delivery |
-| `references/characters.md` | Single-character fields, HTML presentation, perception and closeness banding, trackers |
+| `references/characters.md` | Single-character fields, images, HTML Styling, Creator's Note, Sound, Tag, trackers |
 | `references/multi-character.md` | Character List, conventions contract, turn-taking, publish order |
 | `references/worlds.md` | Studio field map, rule taxonomy, publish announcements, linking Worlds to characters |
-| `references/knowledge-files.md` | JSON-only rule, SillyTavern World Info format, retrieval design, key hygiene |
-| `references/images.md` | Platform requirements, prompt syntax, exclusions, reference images, image rules in Worlds |
+| `references/knowledge-files.md` | JSON-only rule, HTML Styling conflict, World Info format, retrieval, key hygiene |
+| `references/images.md` | Image set, watermarks, prompt shape, exclusions, editing, Dynamic Cover, Worlds |
 | `references/failure-modes.md` | The full failure catalogue with fixes, indexed by symptom |
 
 ## Requirements

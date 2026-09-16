@@ -92,10 +92,10 @@ main beats varies, and an instruction not to repeat the previous structure.
 every response, forever.**
 
 The most common way a good build dies, and the hardest to catch, because it
-only appears after the part everyone tests. Observed on the published Soren
-build: past the union and past Evan, with the memories back and the threat
-gone, he had nothing left to do except open every response by asking the Moon
-what she wanted to do today.
+only appears after the part everyone tests. Observed on a published build whose
+objective was a union between the leads: once that was reached, the obstacle
+was gone, and the character had nothing left to do except open every response
+by asking the player what they wanted to do today.
 
 Nothing in the fields is wrong. The fields simply stop at the ending. The model
 is out of instructions, and handing control to the player is the safest move
@@ -245,8 +245,8 @@ frustrated by it.
 
 The player writes a thought in single quotes and the character responds to its
 content, quotes it back, or knows a fact that only appeared there. Observed on
-the published Soren build, where he behaved as though the Moon's thoughts were
-addressed to him.
+a published build in a setting with a bond between the leads, where the
+character behaved as though the player's thoughts were addressed to him.
 
 Two things are happening. The first is generic: every other line of player text
 has been a cue to respond, so a thought gets treated as one too. The second is
@@ -423,6 +423,35 @@ announcement itself rather than answering it one player at a time.
 Ask whether they started a fresh chat. A session with established behaviour
 keeps matching itself regardless of field changes. This explains most reports
 of a fix not taking.
+
+**The knowledge file upload is missing from the form.**
+
+HTML Styling is on. The upload only exists while it is off. Nothing on the
+form says so, and the usual conclusion is that the feature was removed. The
+user has to choose: styled Description and Opening, or files. Switching it off
+means rewriting both public fields in markdown, since HTML is no longer
+enabled. See "HTML Styling or knowledge files" in SKILL.md.
+
+**Asterisks show up as literal characters in the Description or Opening.**
+
+HTML Styling is on and the field was written in markdown. Narration goes in
+`<narration>` tags and dialogue in `<message>` tags, with any styled card in
+an `<html-box>`. Rewrite the whole field in the tag scheme rather than
+converting asterisks one at a time.
+
+**The card or an image was rejected for a watermark.**
+
+Look at the source image before the Watermark toggle. The toggle adds Tipsy's
+own username mark, and the review standards name marks from other platforms.
+
+The confirmed cause is a generator's export watermark. Two cards were rejected
+for art exported from Magic Hour before the creator had a paid plan. Ask which
+plan the image was exported on, check the full-size file corner to corner, and
+remove the mark or re-export on a plan that exports without one.
+
+Otherwise look for an editing app's logo, a stock overlay, or lettering on a
+surface that reads as a brand. Fix the source image, or regenerate with the
+blank-surfaces clause in `references/images.md`, and resubmit.
 
 ---
 
