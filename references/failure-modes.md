@@ -430,7 +430,18 @@ HTML Styling is on. The upload only exists while it is off. Nothing on the
 form says so, and the usual conclusion is that the feature was removed. The
 user has to choose: styled Description and Opening, or files. Switching it off
 means rewriting both public fields in markdown, since HTML is no longer
-enabled. See "HTML Styling or knowledge files" in SKILL.md.
+enabled. Files already uploaded are not deleted by the toggle, so nothing has
+to be re-uploaded when it goes back off. See "HTML Styling or knowledge files"
+in SKILL.md.
+
+**The knowledge file stopped firing and the card was not otherwise changed.**
+
+HTML Styling was switched on. It blocks the model's access to an already
+uploaded file, confirmed by creator testing in September 2026, and the upload
+field vanishing at the same time makes it look like the file was dropped. It
+was not. Switch HTML Styling off and injection resumes from the same file,
+with both public fields rewritten in markdown. Check the toggle before
+auditing keys or rewriting entries.
 
 **Asterisks show up as literal characters in the Description or Opening.**
 
