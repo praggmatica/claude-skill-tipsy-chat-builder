@@ -304,11 +304,13 @@ it off only when the build has incidental breadth that genuinely will not sit
 in Background: a large gazetteer, a long minor cast, inventories. Then the
 public fields go back to plain markdown.
 
-Whether files uploaded before HTML Styling was switched on stay attached and
-keep firing is unconfirmed. Never rely on it until it has been tested with the
-retrieval test in `references/knowledge-files.md`. The tag syntax HTML Styling
-expects is in `references/characters.md` under "HTML presentation for the
-public fields".
+Files uploaded before HTML Styling was switched on stay attached but stop
+firing. Creator-tested and confirmed as of September 2026: HTML Styling on
+blocks the model's access to the file, and switching it back off reactivates
+injection from the same upload. So the choice is reversible in both
+directions, but there is no state where a build gets styled public fields and
+a working file at once. The tag syntax HTML Styling expects is in
+`references/characters.md` under "HTML presentation for the public fields".
 
 ## Delivering fields
 

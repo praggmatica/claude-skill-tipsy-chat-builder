@@ -275,7 +275,8 @@ model from generating new lore. Open categories get filled.
 
 Sits under Background in the editor and takes 10 files at 2MB each, but only
 while HTML Styling is off. With HTML Styling on, the field is not on the form
-at all. Decide between styled public fields and files before building either,
+at all and any file already uploaded stops firing until the toggle goes back
+off. Decide between styled public fields and files before building either,
 see "HTML Styling or knowledge files" in SKILL.md. It accepts
 TXT and it should never be given TXT, because plain text ingestion inflates the
 character's context by roughly 15x the file's token count and the user pays

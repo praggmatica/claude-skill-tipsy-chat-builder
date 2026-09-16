@@ -3,10 +3,12 @@
 The create form takes up to 10 files at 2MB each, sitting under Background.
 Tipsy has documented none of it and has not answered creators asking for
 worldbook support, so everything here is creator-tested rather than published.
-Four things are settled as of September 2026: TXT uploads carry a severe cost
+Five things are settled as of September 2026: TXT uploads carry a severe cost
 penalty and JSON does not, file contents are private, a file surfaces only when
-the conversation makes it relevant rather than sitting in context, and the
-upload field is only on the form while HTML Styling is off.
+the conversation makes it relevant rather than sitting in context, the
+upload field is only on the form while HTML Styling is off, and an already
+uploaded file stops firing while HTML Styling is on and fires again once it is
+switched back off.
 
 ## HTML Styling removes the field
 
@@ -20,10 +22,17 @@ Raise this before writing a file, not after. A creator who ships a styled card
 and then decides the build needs a world file has to strip the HTML out of both
 public fields and rewrite them in markdown to get the upload back.
 
-Unconfirmed: whether files uploaded while HTML Styling was off stay attached
-and keep firing after it is switched on. Do not design around it. If a user
-wants to try, run the retrieval test under "Testing" below in a fresh chat
-after the toggle change, with the invented-token check, before trusting it.
+A file uploaded while HTML Styling was off stays attached after the toggle
+goes on, but it stops firing. Creator-tested and confirmed in September 2026:
+HTML Styling blocks the model's access to the JSON, and switching HTML Styling
+back off reactivates injection from the same file with no re-upload. Nothing
+is lost by toggling, but there is no state where styled public fields and a
+live file coexist, so never plan a build that needs both.
+
+The practical consequence for a creator debugging a silent file: check the
+HTML Styling toggle before suspecting the JSON. A file that retrieved fine
+last week and returns nothing now, on a card whose Description was recently
+restyled, is this and not a key-matching problem.
 
 ## The hard rule: JSON only, never TXT
 
