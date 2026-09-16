@@ -1,6 +1,6 @@
 ---
 name: tipsy-chat-builder
-description: Build single characters, Multi-character ensemble builds, and interactive story Worlds for Tipsy Chat (tipsy.chat), the AI roleplay platform. Use this whenever the user mentions Tipsy, tipsy.chat, Tipsy Studio, building or editing an AI roleplay character, a character card, a Multi-character cast, a "World", uploading a lore or knowledge file or worldbook, or fields like Persona, Greeting, Dialog Style, Reply Settings, Conversation Style, Character List, Example Dialogues, or Role in World. Also use it when they ask about TXT versus JSON attachments, or when a bot rushes its reveal, stalls, loops, runs out of story once its objective is met, has nothing to talk about, waits on the player instead of acting, or drifts from its character sheet, even if they never say the word Tipsy. Covers field-by-field authoring, rule design for multi-act Worlds, JSON knowledge files and the no-TXT rule, image prompting, rating compliance, and known failure modes with fixes.
+description: Build single characters, Multi-character ensembles, and story Worlds for Tipsy Chat (tipsy.chat), the AI roleplay platform. Use it whenever the user mentions Tipsy, Tipsy Studio, an AI roleplay character or card, a cast, a World, a lore file or worldbook, or fields like Background, Opening, Greeting, Reply Settings, Creator's Note, Conversation Style, Example Dialogues, Character List, Sound, Tag, HTML Styling, Dynamic Cover or an animated card, Watermark, character images, chat backgrounds, Persona, Dialog Style, or Role in World. Also use it for TXT versus JSON uploads, or when a bot rushes its reveal, stalls, loops, runs out of story after its objective, waits on the player, or drifts from its sheet, even if Tipsy is never named. Covers field-by-field authoring, multi-act World rules, JSON knowledge files, image sets and animated covers, voice choice, rating compliance, and failure modes with fixes.
 ---
 
 # Tipsy Chat Builder
@@ -15,7 +15,9 @@ no acts, no tracked state beyond what you encode in instructions.
 flipped. They assemble already published single characters into one scene
 through a Character List. Nothing about a cast member's persona is authored
 here, and there is no Reply Settings field, so conduct has to be agreed across
-the members before any of them is published.
+the members before any of them is published. The container form also has no
+Main Character Gender, no HTML Styling, and no Sound, and it requires at least
+two members.
 
 **Worlds** are built in Studio and are multi-scene interactive games with
 their own lore, cast, and rule engine. Worlds support HTML, CSS, and
@@ -31,6 +33,13 @@ character build in its own right. Before shipping anything, read
 `references/failure-modes.md`, which is the most valuable file here. Read
 `references/images.md` when generating art, and
 `references/knowledge-files.md` before touching the file upload field.
+
+Two decisions come before any writing on a single-character build, because each one
+changes which fields exist or what they accept. Rating comes first, since it
+decides the Tag picklist and cannot be changed later. HTML Styling comes
+second, since switching it on removes the knowledge file upload from the form
+entirely. See "HTML Styling or knowledge files" below. A Multi-character
+container has no HTML Styling toggle, so only Rating applies there.
 
 ## The five principles
 
@@ -133,10 +142,13 @@ him initiate, it is to band it. See "Banding closeness".
 
 ## Build order
 
-For characters: concept, then rating, then images, then Description, Greeting,
-Background, knowledge files, Example Dialogues, Reply Settings, Categories.
-Files sit after Background because writing the world file is what tells you
-what Background does not need to carry.
+For characters: concept, then rating, then the HTML Styling decision, then
+images, then Description, Opening, Background, knowledge files (only when HTML
+Styling is off), Example Dialogues, Reply Settings, Creator's Note, then Sound
+and Tag. Files sit after Background because writing the world file is what
+tells you what Background does not need to carry. Creator's Note sits after
+Reply Settings because it is written to the player about the conduct the build
+already has, and it cannot be drafted honestly before that conduct exists.
 
 For Multi-character: ensemble design, then the shared artifacts, meaning the
 conventions contract and the world file both, then each member built and
@@ -159,7 +171,8 @@ in four messages.
 
 - Name: 50 characters.
 - Description: 100,000 characters. Always public, no toggle.
-- Opening: 20,000 characters.
+- Opening: 20,000 characters. One Opening only. There is no alternate
+  greeting field.
 - Example Dialogues: 20,000 characters.
 - Reply Settings: 2000 characters. Count it, do not estimate. Present on
   single-character builds only. Multi-character builds have no such field.
@@ -168,10 +181,20 @@ in four messages.
   on this field is instruction adherence, not the form.
 - World title: 50 characters. World description: 2000. Publish announcement:
   1000.
-- Categories: up to 10.
-- Images: at least 768 x 1360, and use the platform's upscale on upload.
+- Creator's Note: 2,000 characters. Under More Settings, player-facing.
+- Tag: up to 10, from a fixed picklist that depends on Rating, with a
+  rotating event slot at the front. No free text.
+- Character images: up to 10 per character, at least 768 x 1360, 9:16. One is
+  chosen as the main avatar, and players can use any of them as a chat
+  background. Watermark toggle defaults on. Use the platform's upscale on
+  upload.
+- Dynamic Cover: GIF, MP4, or WebP at 9:16. Upload MP4, which displays best.
+  Toggle, off by default.
+- Sound: a voice picked from a library, optional. Single-character builds
+  only.
 - Knowledge file uploads: 2MB each, 10 files. JSON only, never TXT. Private,
-  and retrieved only when relevant. See "Uploaded knowledge files" below.
+  and retrieved only when relevant. The field is not on the form while HTML
+  Styling is on. See "Uploaded knowledge files" below.
 - Token budget: Tipsy's own guidance recommends 700 to 800 tokens across
   personality and example dialogue combined, warning that too many causes
   short-term memory loss. That number predates their context length controls
@@ -195,7 +218,7 @@ in four messages.
 
 ## Ratings and public content
 
-The user picks SFW or Limitless at creation and cannot have both. Public
+The user picks Limited or Limitless at creation and cannot have both. Public
 content is held to the rating regardless of what the chat contains. Tipsy's
 rating rules name pictures, taglines, and sample dialogues as public content,
 and separately state that example dialogues display on the character profile
@@ -206,6 +229,11 @@ are not displayed. Background is the place for them, and its visibility is an
 explicit toggle in the editor that defaults to off, so check it is still off
 before publishing rather than assuming. Description has no such toggle and is
 always public.
+
+Every character image is public, all ten of them, and so is the Dynamic Cover.
+The extra images are browsable and double as chat backgrounds, so each one is a
+spoiler surface held to the rating. Treat Creator's Note as public too, since
+it is written for players.
 
 On a Multi-character build the Character List is public too, so the cast itself
 is a spoiler surface. Never attach a character whose presence is the twist.
@@ -260,6 +288,27 @@ nothing else, so set the rest correctly but never build a beat that depends on
 Most builds need no file at all. If the lore fits in Background, put it in
 Background. The full field reference, key hygiene, a worked example, testing,
 and the re-test triggers are in `references/knowledge-files.md`.
+
+## HTML Styling or knowledge files
+
+As of September 2026 a single-character build gets one or the other. A
+Multi-character container has no HTML Styling toggle, so it always has its
+upload field and its public fields are always markdown. The upload field is only on
+the form while HTML Styling is off. Switch HTML Styling on and the field
+disappears, switch it off and it returns. Nothing in the editor explains this,
+so say it to the user before either decision is locked in.
+
+Default to HTML Styling on, because most builds need no file and styled public
+fields are what the browse page and the first screen of every chat show. Turn
+it off only when the build has incidental breadth that genuinely will not sit
+in Background: a large gazetteer, a long minor cast, inventories. Then the
+public fields go back to plain markdown.
+
+Whether files uploaded before HTML Styling was switched on stay attached and
+keep firing is unconfirmed. Never rely on it until it has been tested with the
+retrieval test in `references/knowledge-files.md`. The tag syntax HTML Styling
+expects is in `references/characters.md` under "HTML presentation for the
+public fields".
 
 ## Delivering fields
 
@@ -324,9 +373,33 @@ Before handing fields back, verify:
   restraint rule elsewhere silently overrides the top band.
 - All four mandatory blocks are present, and the post-objective rotation has
   at least five entries with a no-repeat instruction.
-- Description and Opening are wrapped in the HTML container, in both the
-  asterisk and the <em> version, with the image inside the Opening. Background
-  and Reply Settings are plain.
+- With HTML Styling on: Description and Opening use the editor's tags
+  (`<html-box>` for styled cards, `<narration>` and `<message>` in the
+  Opening), carry no asterisks, and have been checked in the Preview pane. No
+  image inside the Description. The greeting image sits in the Opening's
+  `<html-box>`. Background, Example Dialogues, Reply Settings, and Creator's
+  Note are plain.
+- HTML Styling and knowledge files are never both assumed. If the build needs a
+  file, HTML Styling is off and the public fields use markdown.
+- Creator's Note, if written, names no tracker, band, gate, number, trigger, or
+  reveal, and tells players how to mark a private thought.
+- Every character image is 9:16, reads as the same person, keeps its point of
+  interest above the lower third, holds to the rating, spoils nothing, and
+  shows no look the fields contradict. At least one image, ideally the main
+  avatar, is a closeup of the face. Watermark left on.
+- Tags come from the current picklist for the build's rating, at most 10,
+  listed alphabetically, with the event slot checked against what the editor
+  shows today rather than assumed.
+- The Dynamic Cover, if used, is animated from the local original of the card,
+  start frame only, 5 seconds, with the mouth and face locked, the camera locked
+  off, and a held still ending, and the export has been checked for a
+  watermark.
+- Conversation Style is Default on any build with a closeness ladder, gated
+  feeling, or slow burn. Romance only where open affection is already true in
+  the Opening, Flirty only on a deliberate single-register tension build, and
+  Safe for Work never paired with a ladder meant to be climbed.
+- If a voice is chosen under Sound, no line that is not the lead's own speech
+  sits in double quotes in the Opening or Example Dialogues.
 - Nothing in any field grants perception of thought outside the band it is
   gated to. Sweep for empathy, attunement, bonds, and any stated sensitivity
   to feeling, since those get read as licence to hear content at any level.
@@ -344,7 +417,9 @@ Before handing fields back, verify:
   conventions contract word for word, every block handed back names the card it
   is pasted into, the publish order puts members before the container, the
   container caps how many cast members speak per response, and at least three
-  standing disagreements are named.
+  standing disagreements are named. The container's Description and Opening
+  are plain markdown with no HTML, and the Character List holds at least two
+  members, kept small because each one raises the per-message cost.
 - On any build with knowledge files, list every key across every entry and find
   the repeats. On a Multi-character build do this across all the cards at once,
   not one card at a time, since two members keying the same word is invisible

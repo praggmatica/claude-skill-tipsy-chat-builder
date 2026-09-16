@@ -3,9 +3,27 @@
 The create form takes up to 10 files at 2MB each, sitting under Background.
 Tipsy has documented none of it and has not answered creators asking for
 worldbook support, so everything here is creator-tested rather than published.
-Three things are settled as of August 2026: TXT uploads carry a severe cost
-penalty and JSON does not, file contents are private, and a file surfaces only
-when the conversation makes it relevant rather than sitting in context.
+Four things are settled as of September 2026: TXT uploads carry a severe cost
+penalty and JSON does not, file contents are private, a file surfaces only when
+the conversation makes it relevant rather than sitting in context, and the
+upload field is only on the form while HTML Styling is off.
+
+## HTML Styling removes the field
+
+On the single-character form, switch HTML Styling on and the upload
+disappears. Switch it off and it comes back. Observed in August 2026 and again on the September 2026 form. So a single
+character gets styled Description and Opening fields or knowledge files, not
+both. The Multi-character form has no HTML Styling toggle, so a container always
+keeps its upload.
+
+Raise this before writing a file, not after. A creator who ships a styled card
+and then decides the build needs a world file has to strip the HTML out of both
+public fields and rewrite them in markdown to get the upload back.
+
+Unconfirmed: whether files uploaded while HTML Styling was off stay attached
+and keep firing after it is switched on. Do not design around it. If a user
+wants to try, run the retrieval test under "Testing" below in a fresh chat
+after the toggle change, with the invented-token check, before trusting it.
 
 ## The hard rule: JSON only, never TXT
 
@@ -264,3 +282,5 @@ happen:
   inclusion groups, probability, and timed effects are usable or decorative.
 - A user reports a TXT upload that did not bloat, which would mean the cost fix
   shipped silently.
+- The upload field appears on the form while HTML Styling is on, which would
+  end the choice between styled public fields and files.

@@ -2,6 +2,7 @@
 *.skill
 dist/
 node_modules
+.data/
 
 # os junk
 .DS_Store

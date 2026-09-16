@@ -1,20 +1,53 @@
 # Tipsy Characters: field by field
 
-Field names have changed over time. As of August 2026 the editor shows:
-Name (50), Type, Main Character Gender, Description (100,000), Opening
-(20,000), Background (1,000,000), a file upload that accepts TXT and JSON but
-should only ever be given JSON, Rating, Visibility, Tag,
-then under More Settings, Conversation Style, Example Dialogues (20,000), and
-Reply Settings (2000). Older documentation calls these Tagline, Greeting, and
-Personality. Ask the user what they see rather than assuming.
+Field names have changed over time. As of September 2026 the editor shows, in
+order: character images (up to 10) with a Watermark toggle, Dynamic Cover,
+Name (50), Type, Main Character Gender, HTML Styling, Description (100,000),
+Opening (20,000), Background (1,000,000), a file upload that accepts TXT and
+JSON but should only ever be given JSON and that is hidden while HTML Styling
+is on, Rating, Visibility, Sound, Tag, then under More Settings, Conversation
+Style, Example Dialogues (20,000), Reply Settings (2,000), and Creator's Note
+(2,000). A required checkbox confirming the character is an adult and
+infringes no one's rights sits above the buttons, and Create stays disabled
+until it is ticked. Draft Box and Save keep work without publishing, and a
+Preview pane to the right shows the chat as a player sees it. Older
+documentation calls some of these Tagline, Greeting, Personality, and
+Categories. Ask the user what they see rather than assuming.
+
+## Contents
+
+- Character images and Dynamic Cover
+- Description, Opening, and HTML presentation for the public fields
+- Background and the knowledge file upload
+- Notation, banding perception, and banding closeness
+- Personality surface, life after the objective, and momentum
+- Conversation Style, Example Dialogues, Reply Settings, and Creator's Note
+- Trackers, player Personas, Sound, and Tag
 
 Type is where the surface is chosen: Character or Multi-character. Everything
-in this file describes a Character build. A Multi-character build reuses the
-same fields with different jobs and drops Reply Settings entirely, so read
+in this file describes a Character build. A Multi-character build reuses most
+of the same fields with different jobs, drops Main Character Gender, HTML
+Styling, Sound, and Reply Settings, and adds a required Character List, so read
 `references/multi-character.md` alongside this one.
 
 There is no separate tagline field. What shows on the browse card is the
-opening line of the Description, so front-load it.
+opening line of the Description, so front-load it. There is also no alternate
+greeting field: one Opening per build.
+
+## Character images and Dynamic Cover
+
+Up to 10 images, uploaded or generated, reordered, with one chosen as the main
+avatar. Players can set any of them as their chat background. Dynamic Cover,
+when switched on, takes a GIF, MP4, or WebP at 9:16 (MP4 displays best) and
+makes the character's home page photo move. The Watermark toggle is Tipsy's own
+username mark and stays on. Composition, consistency, spoilers, set prompts,
+and animation are all in `references/images.md`, which you read before
+generating anything.
+
+The one rule that belongs here: the model cannot see any of these images.
+Appearance and any Wardrobe block still carry every physical fact the character
+needs in prose, and every look shown anywhere in the image set has to be one
+the fields permit.
 
 Everything below describes what goes in a field. When handing one back, hand
 back the entire field, pasteable, with a character count if it is capped. See
@@ -41,19 +74,20 @@ Some creators end with a bracketed line of small-caps unicode tags:
 Check how other characters display before adding it. Unrendered brackets look
 broken in a list.
 
-Ship this field wrapped in the HTML container. See "HTML presentation for the
-public fields".
+With HTML Styling on, ship this field in an `<html-box>`. See "HTML
+presentation for the public fields".
 
 ## Opening
 
 Public, and the first message. Drop the reader mid-scene with something already
 happening. No "hello, I am X" introductions.
 
-Markdown conventions Tipsy specifies: narration in asterisks with no spaces
-inside them, dialogue in double quotes, inner thoughts and side-character
-speech in single quotes so they are not read in the character's voice. Bold
-with double asterisks. Images embed with `![alt](url)`, and Tipsy recommends
-including one.
+With HTML Styling off, the markdown conventions Tipsy specifies apply:
+narration in asterisks with no spaces inside them, dialogue in double quotes,
+inner thoughts and side-character speech in single quotes so they are not read
+in the character's voice. Bold with double asterisks. Images embed with
+`![alt](url)`, and Tipsy recommends including one. With HTML Styling on,
+narration and dialogue move into tags instead, covered in the next section.
 
 Note that single quotes carry two jobs here, interior thought and side-character
 speech. Keep the greeting consistent with the notation block: name the speaker
@@ -68,55 +102,111 @@ rest of the story.
 
 Use `{{user}}` rather than assuming a name.
 
-Ship this field wrapped in the HTML container, with the greeting image inside
-it. See "HTML presentation for the public fields".
+With HTML Styling on, the greeting image goes in an `<html-box>` and the scene
+goes in `<narration>` and `<message>` tags. See "HTML presentation for the
+public fields".
 
 ## HTML presentation for the public fields
 
-Default for every build. Description and Opening ship wrapped in an HTML
-container rather than as bare text, because both are display surfaces and a
-styled block reads as a finished card instead of three loose paragraphs.
+HTML Styling is a toggle above Description, off by default, labelled as rich
+tags for Description and Opening. It decides three things at once: whether
+those two fields take HTML, which tags they expect, and whether the knowledge
+file upload exists at all. With it on, the upload disappears from the form.
+Settle it before writing either field, and see "HTML Styling or knowledge
+files" in SKILL.md for how to choose.
 
-Only these two fields. Background and Reply Settings stay plain, since the
-asterisk convention there is instruction to the model rather than something a
-reader sees, and markup in an instruction field is noise the model has to parse
-past.
+Default for public builds is on, unless the build needs a knowledge file.
+Description and Opening are display surfaces, and a styled block reads as a
+finished card instead of three loose paragraphs.
 
-The container is a soft tinted panel with a rule down one side, an embedded
-image, and explicit paragraph spacing. Inline styles only, since there is no
-stylesheet to hook into. Tint it to sit with the character's art rather than
-using the same colour on every build: the point is that the block and the image
-look like one object.
+Only these two fields. Background, Example Dialogues, Reply Settings, and
+Creator's Note stay plain, since the asterisk convention there is instruction
+to the model rather than something a reader sees, and markup in an instruction
+field is noise the model has to parse past.
+
+**The tags the editor names.** With HTML Styling on, the field placeholders
+specify three:
+
+- `<html-box></html-box>` holds any styled visual card. On the Description the
+  editor says it adds JavaScript support and renders better. On the Opening it
+  is required for JavaScript. Styled panels, images, and anything with inline
+  CSS go inside one.
+- `<narration></narration>` holds narration in the Opening. It replaces the
+  asterisks. Never put asterisks inside a styled field; they display as literal
+  characters.
+- `<message></message>` holds dialogue in the Opening.
+
+Tipsy has published nothing beyond those placeholders, so three details are
+working assumptions to check in the Preview pane before saving. Keep the double
+quotes on speech inside `<message>`, since the notation block and the voice
+both key on them, and remove them only if the preview shows doubled marks.
+Keep side-character lines and unattributed thought inside `<narration>` in
+single quotes rather than in `<message>`, on the assumption that `<message>` is
+what gets read in the lead's voice. And keep each paragraph in its own tag
+rather than one tag around the whole scene.
+
+**The container.** A soft tinted panel with a rule down one side and explicit
+paragraph spacing, inline styles only, since there is no stylesheet to hook
+into. Tint it to sit with the character's art rather than using the same colour
+on every build: the point is that the block and the image look like one object.
+
+Description:
 
 ```
+<html-box>
 <div style="background:rgba(R,G,B,0.07);border-left:3px solid rgba(R,G,B,0.5);border-radius:10px;padding:18px 20px;">
-<img src="PASTE_IMAGE_URL_HERE" alt="[character, scene]" style="width:100%;border-radius:8px;display:block;margin:0 0 16px;" />
-<p style="margin:0 0 14px;">[paragraph]</p>
+<p style="margin:0 0 14px;">[hook paragraph]</p>
 <p style="margin:0;">[last paragraph, zero bottom margin]</p>
 </div>
+</html-box>
 ```
 
-**Always hand back two versions.** The HTML toggle may or may not leave
-markdown parsing on, and this is not knowable from outside the editor.
+Opening:
 
-Version A keeps the asterisks exactly as written. Version B replaces every
-asterisk pair with `<em>` tags and is the fallback if the preview shows the
-asterisks as literal characters. Tell the user to try A first.
+```
+<html-box>
+<div style="background:rgba(R,G,B,0.07);border-left:3px solid rgba(R,G,B,0.5);border-radius:10px;padding:12px;">
+<img src="PASTE_IMAGE_URL_HERE" alt="[character, scene]" style="width:100%;border-radius:8px;display:block;" />
+</div>
+</html-box>
+<narration>[narration paragraph]</narration>
+<message>"[dialogue]"</message>
+<narration>[narration paragraph, ending on something already in motion]</narration>
+```
 
-Do not convert the double quotes on speech in either version. Only narration
-changes.
+Hand back one version. The old advice to deliver an asterisk version and an
+`<em>` version side by side predates the tag scheme and is retired.
+
+**Getting an image URL.** With HTML Styling on, the Description shows an Image
+to link button. Going by its label it turns an uploaded image into a URL for
+`src`, which saves hosting the greeting image somewhere else. Confirm with the
+user what it returns before relying on it, and check that the link still loads
+in a fresh chat.
+
+**No image inside the Description.** The main avatar already appears on the
+card and at the top of the chat, so an image in the Description repeats it. The
+image inside the Opening is not redundant: it is the first thing on the page in
+every fresh chat and sets the scene's visual register in a way the card cannot.
+Make it a scene shot, not the avatar again.
 
 **The Description has one extra constraint.** The browse card shows the opening
-line of the field, so the hook has to be the first paragraph inside the
-container and it has to survive truncation. Tell the user to check the browse
-preview after pasting, since a card that truncates mid-tag looks broken in a
-list. If it does, the fallback is to leave the hook line outside the container
-as plain text and open the container underneath it.
+line of the field, so the hook has to be the first paragraph inside the box and
+it has to survive truncation. Tell the user to check the browse preview after
+saving, since a card that truncates mid-tag looks broken in a list. If it does,
+the fallback is to leave the hook line outside the `<html-box>` as plain text
+and open the box underneath it.
 
-The image inside the Description is optional and often redundant with the card
-art. The image inside the Opening is not, since it is the first thing on the
-page in every fresh chat and it sets the scene's visual register in a way the
-browse card cannot.
+**Watch what the Opening teaches.** Principle 3 applies to format as well as
+content. After the first test reply, check that the character answers in the
+notation Reply Settings asks for and is not echoing `<narration>` or
+`<message>` tags into its own messages. If it is, add one line to Reply
+Settings stating that replies use asterisks and double quotes and never HTML
+tags, then start a fresh chat.
+
+**With HTML Styling off.** Use plain markdown in both fields: asterisks for
+narration, double quotes for speech, single quotes for thought and side
+characters, and `![alt](url)` for the Opening image. No HTML of any kind,
+since the toggle is what enables it.
 
 ## Background
 
@@ -183,7 +273,10 @@ model from generating new lore. Open categories get filled.
 
 ## Knowledge file upload
 
-Sits under Background in the editor and takes 10 files at 2MB each. It accepts
+Sits under Background in the editor and takes 10 files at 2MB each, but only
+while HTML Styling is off. With HTML Styling on, the field is not on the form
+at all. Decide between styled public fields and files before building either,
+see "HTML Styling or knowledge files" in SKILL.md. It accepts
 TXT and it should never be given TXT, because plain text ingestion inflates the
 character's context by roughly 15x the file's token count and the user pays
 that in gems on every message. JSON only, always. Full reasoning, structure,
@@ -268,7 +361,7 @@ NOTATION
 who is named:
 
   With a named speaker, that person is talking aloud and is audible.
-    Evan, from the doorway: 'You are late.'
+    Marin, from the doorway: 'You are late.'
   With no speaker named, it is thought. Silent. Nobody in the scene hears it.
 
 Unattributed single quotes in {{user}}'s message are {{user}} thinking.
@@ -471,7 +564,7 @@ while a person who wants this would arrange for it to be possible. Making that
 mechanical, gate two blocked twice and he engineers an occasion, is what stops
 a high tracker from feeling like a locked door.
 
-**Rating governs what the top band contains, not whether it exists.** An SFW
+**Rating governs what the top band contains, not whether it exists.** A Limited
 build still has a 76 to 100 band, and it still initiates. What lands there is
 different.
 
@@ -637,19 +730,73 @@ missing, the restraint rule will eat this one. See failure-modes.
 
 ## Conversation Style
 
-A four-way picker under More Settings: Default, Safe for Work, Romance, Flirty.
-Default is selected on a new build.
+A four-way picker under More Settings, on both the single-character and
+Multi-character forms. Default is selected on a new build. Each option has a
+help tooltip, captured September 2026:
 
-Treat it as a coarse thumb on the scale, not as conduct instruction. It is not
-a substitute for anything in Reply Settings, and nothing in Reply Settings
-should contradict it. A build with a closeness ladder that stays locked at the
-low bands for a long stretch is a poor match for Flirty, since the setting
-pushes in one direction while the ladder holds in the other, and the player
-sees a character who flirts at a level he is not supposed to have reached.
+- **Default:** "Creatively promote {{char}} to roleplay."
+- **Safe for Work:** "Portray {{char}} in a safe, work-appropriate roleplay."
+- **Romance:** "{{char}} is deeply affectionate and seeks attention from
+  {{user}}, openly expressing love and care."
+- **Flirty:** "{{char}} subtly seeks {{user}}'s attention, hoping to evoke
+  mutual desire, maintaining plausible deniability."
+
+Read those as what each setting pushes toward, not as a guarantee of what it
+does. Tipsy has not said how the setting reaches the model or how it ranks
+against the fields.
+
+**Default is the only neutral one.** It asks for roleplay and nothing about the
+relationship, which leaves the build's own mechanics in charge. The other three
+each state a fixed posture, and a fixed posture is exactly what a closeness
+ladder, a gated feeling, or a slow burn exists to earn over time.
+
+**Romance and Flirty state a relationship as already present.** Romance puts
+open love and care in play from the first message. Flirty puts the character
+in pursuit from the first message, only deniably. Either one contradicts a
+ladder whose bottom band reads warmth as friendliness and nothing else, and
+Romance contradicts every band below the top. The player sees a character
+behaving at a level he is not supposed to have reached, and no Reply Settings
+wording reliably overrides a platform setting nobody can see.
+
+Flirty also sits badly with the upper bands of a standard ladder. Plausible
+deniability is the opposite of a band that names the feeling plainly and of a
+top band that initiates. It suits a build whose entire premise is unacknowledged
+tension held at one level on purpose, and little else.
+
+Both also point the character at {{user}}. "Seeks attention" is the posture of
+a character whose world is the player, which pulls against the wants that have
+nothing to do with {{user}} and can hasten the post-objective habit of orbiting
+the player once the plot runs out. If Romance or Flirty is chosen, the
+personality surface blocks matter more, not less.
+
+**Where each one fits:**
+
+- **Default** for any build with a closeness ladder, a gated reveal of feeling,
+  or a friendship that may or may not turn. This is most builds. If the user
+  wants the romance to feel strong, strengthen the top band, not the picker.
+- **Safe for Work** when the chat itself should stay work-appropriate at every
+  band, such as a mentor or professional build where romance is off the table.
+  It is a separate lever from Rating. Rating governs public content and review,
+  this governs the conversation. A Limited build does not need it, and on a
+  Limited build where romance is reachable it may flatten the top band, so do
+  not pair it with a ladder that is meant to be climbed.
+- **Romance** when the relationship is established before the Opening and is
+  not what the build tracks: a long-married partner, a restored consort, a
+  couple whose story is about something else. Any closeness ladder on such a
+  build must start high enough that open affection is already true.
+- **Flirty** for a deliberate single-register tension build with no ladder to
+  climb, or a ladder whose lowest band is already deniable interest.
+
+On a Multi-character container, one setting governs a whole cast. Romance or
+Flirty will push every member toward {{user}} at once, which erodes the
+standing disagreements and turn-taking the container depends on. Default is
+the safe choice there unless the ensemble is explicitly a rivalry for the
+player's attention.
 
 Confirm the current setting with the user before diagnosing tone problems. It
-is the cheapest possible explanation for a character who reads warmer or cooler
-than the fields say he should.
+is the cheapest possible explanation for a character who reads warmer, colder,
+or more pursuing than the fields say he should, and it is invisible from inside
+the fields.
 
 ## Example Dialogues
 
@@ -726,6 +873,72 @@ rotation. If all of them plus a tracker will not fit in 2000 characters, put the
 rotation at the bottom of Background under its own CAPS header and leave a
 one-line pointer in Reply Settings.
 
+## Creator's Note
+
+Under More Settings, after Reply Settings. 2,000 characters. The placeholder
+frames it as tips for players: roleplay advice, model recommendations, and chat
+guidelines.
+
+Treat it as public, since it is written for players. Where it displays is not
+documented, and neither is whether the model reads it. Write it so that both
+would be harmless: nothing that spoils, and nothing that would teach the
+character a wrong behaviour if it were read as instruction.
+
+What earns its place, in priority order:
+
+- **How to write to this character.** Double quotes to speak, asterisks to act,
+  and single quotes with no speaker for a private thought the character will
+  not hear. The notation block only works if players use it, and this is the
+  one field that tells them.
+- **Start a fresh chat after an update.** Session history beats field edits, so
+  this line saves every returning player from concluding the update did
+  nothing.
+- **What kind of story it is.** Slow burn, befriend or romance, no fixed end, a
+  character who acts without waiting. Promise the experience, never the
+  mechanism.
+- **A model or response length recommendation,** only if the build was
+  actually tested on it.
+
+Never: tracker names, numbers, or bands, what raises a tracker, gates, the
+reveal, or the existence of a secret beyond what the Description already
+promises. Telling players that touch advances the story is the same extraction
+problem as a player asking the character outright: they will do exactly that
+and reach the reveal in four messages.
+
+Hand it back complete like any capped field, with a character count.
+
+## Player Personas
+
+A Persona is the player's own card describing who they are playing, written on
+their side rather than by the creator. Tipsy feeds it to the character as
+context, so it competes for the same budget as every other field and a long one
+gets compressed or ignored. Keep it to roughly a thousand characters.
+
+Creators write these for two reasons: to play their own builds, and to offer a
+suggested Persona in the Creator's Note for a build whose premise needs the
+player to be a particular kind of person.
+
+What belongs in one:
+
+- Who they are in this world and why they are in the scene, in a sentence or
+  two.
+- Appearance only to the degree the story needs it, since a Persona is not a
+  card and has no image to match.
+- Traits shown as behaviour rather than adjectives. A Persona claiming a trait
+  gives the character a label, while one describing what the player does under
+  pressure gives it something to respond to.
+- What they do not do. A single line of refusal, such as never flinching or
+  never asking for permission, shapes the character's behaviour more than a
+  paragraph of qualities.
+
+Keep it compatible with the build. A Persona that contradicts the character's
+premise, such as one immune to the thing the story depends on the player
+feeling, flattens the build from the other side of the table. If a build has a
+closeness ladder, a Persona should leave room for it rather than starting at
+the top.
+
+A suggested Persona in a Creator's Note is subject to the same rules as the
+rest of that field: nothing that names a tracker, a gate, or the reveal.
 ## Trackers
 
 The single most useful pattern for any character with a reveal.
@@ -741,7 +954,63 @@ does more than any "do not reveal" instruction.
 Give the tracker bands, and describe behaviour at each rather than numbers.
 Never display the value.
 
-## Categories
+## Sound
 
-Up to 10. This is discoverability. Use terms people browse by rather than
-terms that describe the character precisely.
+Optional. Select Sound opens a voice library: search by voice name or traits,
+filter by All, Male, or Female, play a sample, and Choose. The list pages with
+Load More, so there are more voices than the first screen shows.
+
+Each voice has a name built from its register, such as Smoky Authority Male or
+Warm Playmate Female, and a line giving an age band (young, mature, or adult)
+and three tone words. Match on age band and register first and tone words
+second. A 28 year old on a mature, restrained voice sounds like his own father,
+and a restrained character on a bright, energetic voice undoes his Background
+every time he speaks. Audition with a line from the Opening, not with the
+sample.
+
+There is no Non-binary tab, although Main Character Gender offers Non-binary.
+For a non-binary character, search by trait words and audition across both
+tabs.
+
+**The voice makes the notation audible.** Tipsy's guide says text in double
+quotes is read in the main character's voice, and single quotes keep
+side-character lines and inner thoughts out of it. So once a voice is chosen, a
+side character speaking in double quotes is voiced as the lead, and a thought
+left in double quotes is read aloud. Sweep the Opening and Example Dialogues
+for any double-quoted line that is not the lead speaking. Under HTML Styling,
+assume `<message>` is what gets voiced and check it in a test chat.
+
+Pick the voice after Background is written, since Background is what settles
+age, register, and speech pattern.
+
+## Tag
+
+Up to 10, from a fixed picklist. There is no free text. The list depends on
+Rating, so choose the rating first: Limitless shows everything Limited does
+plus a set of adult tags.
+
+This is discoverability. Use terms people browse by rather than terms that
+describe the character precisely. Present tag choices to the user in
+alphabetical order.
+
+Limited picklist as of September 2026, 50 standing tags:
+
+Action, Anime, AnyPOV, Best Friend, Celebrity, Delinquent, Demon, Depressed,
+Dominant, Enemy to Lovers, Fan-made, Female POV, Femboy, Feral, Fictional,
+Furry, Game, Hero, Historical, Horror, Kuudere, LGBTQ+, Lore, Mafia, Magical,
+Male POV, Married Partner, Mature, MLM, Monster, Multiple, Muscle, Mystery,
+Non-human, OC, Omegaverse, Protective, Realistic, Romantic, RPG, Scenario,
+Spicy, Submissive, Tsundere, Twins, Vampire, Villain, Wholesome, WLW, Yandere.
+
+Limitless adds these, as captured August 2026:
+
+BDSM, Cheating, Crime, Forbidden Love, Forced Love, Futanari, Seductive,
+Vanilla.
+
+**The first slot rotates.** Ahead of the standing tags sits a featured or event
+tag with its own emoji, colour, or Event badge. In August 2026 that slot held
+Aether, Demi-Human, and Nocturne. By September 2026 those were gone and
+WildWest held it. Never recommend an event tag from memory. Ask the user what
+the slot shows today, and use it only when the build genuinely fits the event,
+since a mismatched tag puts the card in front of browsers who bounce off it.
+If the standing list above no longer matches the editor, trust the editor.
