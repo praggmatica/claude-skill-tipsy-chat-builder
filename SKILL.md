@@ -116,6 +116,18 @@ finished story playable. This is the single most common reason a good build
 gets abandoned, because it is the part the player reaches only after they are
 already invested.
 
+Ask the user early whether the build hands off to something else or runs
+forever, since it changes the rotation, the wants, and the cast rules. An
+endless build also needs a no-final-scene rule, a renewal rule for when a
+thread closes, and successors behind every want. See "The story never ends" in
+`references/characters.md`.
+
+The same section's companion, "Playing off the storyline", covers the other
+half: what the build owes a player who takes it somewhere the creator did not
+plan. The short version is that the character controls outcomes and never the
+attempt, a planned route is a spine rather than a fence, and scheduled beats
+have to fire wherever the story happens to be.
+
 **3. Personality surface.** A character built out of a secret and a want for
 the player has nothing to say once both resolve. Opinions, unrelated wants,
 tellable stories, and small talk are the fuel that post-objective mode burns.
@@ -304,13 +316,11 @@ it off only when the build has incidental breadth that genuinely will not sit
 in Background: a large gazetteer, a long minor cast, inventories. Then the
 public fields go back to plain markdown.
 
-Files uploaded before HTML Styling was switched on stay attached but stop
-firing. Creator-tested and confirmed as of September 2026: HTML Styling on
-blocks the model's access to the file, and switching it back off reactivates
-injection from the same upload. So the choice is reversible in both
-directions, but there is no state where a build gets styled public fields and
-a working file at once. The tag syntax HTML Styling expects is in
-`references/characters.md` under "HTML presentation for the public fields".
+Whether files uploaded before HTML Styling was switched on stay attached and
+keep firing is unconfirmed. Never rely on it until it has been tested with the
+retrieval test in `references/knowledge-files.md`. The tag syntax HTML Styling
+expects is in `references/characters.md` under "HTML presentation for the
+public fields".
 
 ## Delivering fields
 
@@ -373,8 +383,17 @@ Before handing fields back, verify:
 - On any build with a closeness ladder: the top band can actually be reached,
   gate two has a written list of places and moments it never opens, and no
   restraint rule elsewhere silently overrides the top band.
-- All four mandatory blocks are present, and the post-objective rotation has
-  at least five entries with a no-repeat instruction.
+- All four mandatory blocks are present, and the post-objective rotation has at
+  least five entries with a no-repeat instruction, including one for the player
+  starting something of their own.
+- Hand-off or endless was settled with the user. An endless build carries a
+  no-final-scene rule, a renewal rule, and a successor behind every want.
+- The player can attempt anything, closed lists cover only what invention would
+  break, any planned route is stated as open between its fixed points, and
+  every scheduled beat has a fallback for firing somewhere the player went
+  instead.
+- Every styled block that holds text carries `color:#fff` on its container div,
+  since text inside an `<html-box>` defaults to black on Tipsy's dark card.
 - With HTML Styling on: Description and Opening use the editor's tags
   (`<html-box>` for styled cards, `<narration>` and `<message>` in the
   Opening), carry no asterisks, and have been checked in the Preview pane. No

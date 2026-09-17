@@ -146,7 +146,10 @@ how long it is allowed to wait.
 **`after_the_ending`**, auto evaluate, gated on the final act being resolved.
 Worlds are more prone to the post-objective dead end than characters, because a
 World with acts has an explicit finish line and nothing written past it.
-Decide with the user which of three shapes applies:
+Decide with the user which of three shapes applies. Free play and loop are the
+defaults, since a World that ends stops being played and stops earning. Choose
+the hard stop only when something real is waiting on the other side of it, such
+as a sequel World or a linked character.
 
 Hard stop. The World ends at a named final image, and the rule says so, with
 what the player is offered instead: a different branch, a linked character, a

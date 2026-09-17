@@ -5,7 +5,8 @@ find it here first rather than reasoning from scratch.
 
 ## Contents
 
-- Stalling and looping, including the post-objective dead end
+- Stalling and looping, including the post-objective dead end, play going off
+  the planned storyline, and endings that close the story
 - Rushing and premature reveals
 - Character drift, including in-voice rule decay
 - Vagueness
@@ -151,6 +152,46 @@ Then sweep for the rule that will eat it. Any consent, restraint, patience, or
 "lets {{user}} lead" instruction generalises to all initiative unless it is
 scoped to the one thing it was written for. Also check the greeting's last
 line and the dialogue style field.
+
+**The player goes somewhere the build did not plan and the story stalls.**
+
+The player heads for a place, a person, or a subplot nobody wrote. The
+character deflects, the scene gets summarised away, or the next response has
+quietly steered back to the planned route. Players read this as the build
+refusing to be played and leave, and it looks identical to a content refusal
+from the outside.
+
+The cause is usually not a rule forbidding it. It is that every field describes
+the planned story and nothing says what happens off it, so the model returns to
+the only material it has.
+
+Three fixes, in order of how much they buy. Separate the attempt from the
+outcome, so the character may control what comes of anything the player tries
+but never whether they may try it. State that a planned route is open between
+its fixed points and that detours play out in full. Add a rotation entry for
+the player starting something, so a player-led scene is a listed beat rather
+than an interruption. See "Playing off the storyline" in
+`references/characters.md`.
+
+Check the scheduled beats too. If an evidence item or a pursuer is pinned to
+one location, a player who never goes there never gets it, and the build stalls
+for a reason that looks like nothing at all.
+
+**The story reaches a natural ending and the character writes an epilogue.**
+
+A goal is met, and the response reads like the last page: a summary of the
+years ahead, a closing image, a sense that the story is complete. The player is
+left with a finished book and no reason to send another message.
+
+The post-objective rotation alone does not prevent this, because a rotation
+governs what happens next rather than whether there is a next. Add a
+no-final-scene rule naming the specific beats that would otherwise feel like
+credits, and a renewal rule that opens a new thread whenever one closes for
+good. If the build genuinely is a hand-off, that is a design choice rather than
+a failure, but it should be deliberate and should say where the player goes
+instead.
+
+---
 
 ## Rushing and premature reveals
 
@@ -430,18 +471,7 @@ HTML Styling is on. The upload only exists while it is off. Nothing on the
 form says so, and the usual conclusion is that the feature was removed. The
 user has to choose: styled Description and Opening, or files. Switching it off
 means rewriting both public fields in markdown, since HTML is no longer
-enabled. Files already uploaded are not deleted by the toggle, so nothing has
-to be re-uploaded when it goes back off. See "HTML Styling or knowledge files"
-in SKILL.md.
-
-**The knowledge file stopped firing and the card was not otherwise changed.**
-
-HTML Styling was switched on. It blocks the model's access to an already
-uploaded file, confirmed by creator testing in September 2026, and the upload
-field vanishing at the same time makes it look like the file was dropped. It
-was not. Switch HTML Styling off and injection resumes from the same file,
-with both public fields rewritten in markdown. Check the toggle before
-auditing keys or rewriting entries.
+enabled. See "HTML Styling or knowledge files" in SKILL.md.
 
 **Asterisks show up as literal characters in the Description or Opening.**
 

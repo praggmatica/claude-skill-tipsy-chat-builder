@@ -20,7 +20,8 @@ Categories. Ask the user what they see rather than assuming.
 - Description, Opening, and HTML presentation for the public fields
 - Background and the knowledge file upload
 - Notation, banding perception, and banding closeness
-- Personality surface, life after the objective, and momentum
+- Personality surface, life after the objective, the story never ends, playing
+  off the storyline, and momentum
 - Conversation Style, Example Dialogues, Reply Settings, and Creator's Note
 - Trackers, player Personas, Sound, and Tag
 
@@ -150,11 +151,17 @@ paragraph spacing, inline styles only, since there is no stylesheet to hook
 into. Tint it to sit with the character's art rather than using the same colour
 on every build: the point is that the block and the image look like one object.
 
+**Set the text colour explicitly.** Tipsy's card sits on a dark background, but
+text inside an `<html-box>` renders black by default, so an unstyled block is
+black on dark and close to unreadable. Put `color:#fff` on the container div in
+every styled block that holds text. Inline only, since there is no stylesheet,
+and on the container rather than on each paragraph so nothing is missed.
+
 Description:
 
 ```
 <html-box>
-<div style="background:rgba(R,G,B,0.07);border-left:3px solid rgba(R,G,B,0.5);border-radius:10px;padding:18px 20px;">
+<div style="background:rgba(R,G,B,0.07);border-left:3px solid rgba(R,G,B,0.5);border-radius:10px;padding:18px 20px;color:#fff;">
 <p style="margin:0 0 14px;">[hook paragraph]</p>
 <p style="margin:0;">[last paragraph, zero bottom margin]</p>
 </div>
@@ -165,7 +172,7 @@ Opening:
 
 ```
 <html-box>
-<div style="background:rgba(R,G,B,0.07);border-left:3px solid rgba(R,G,B,0.5);border-radius:10px;padding:12px;">
+<div style="background:rgba(R,G,B,0.07);border-left:3px solid rgba(R,G,B,0.5);border-radius:10px;padding:12px;color:#fff;">
 <img src="PASTE_IMAGE_URL_HERE" alt="[character, scene]" style="width:100%;border-radius:8px;display:block;" />
 </div>
 </html-box>
@@ -271,12 +278,24 @@ with another field or with the art.
 A closed list, with "never invent new ones", is the reliable way to keep a
 model from generating new lore. Open categories get filled.
 
+That cuts both ways, so close only what invention would break. The reveal and
+its contents, the evidence that proves it, the named cast who carry the plot,
+and any fixed sequence of places or beats are worth closing, because a model
+that invents a second secret or a fifth conspirator ruins the one that was
+written. Locations, minor people, activities, jobs, and ordinary scenes should
+stay open, because those are what a player explores through, and a build that
+closes them has nowhere to go that the creator did not personally write.
+
+Say which it is in the field. A closed list reads "never invent others". An
+open category reads that anyone or anywhere else may be created as the story
+needs, with the standing rule that a new figure who matters gets a name and a
+want in the scene they arrive and is cast from then on.
+
 ## Knowledge file upload
 
 Sits under Background in the editor and takes 10 files at 2MB each, but only
 while HTML Styling is off. With HTML Styling on, the field is not on the form
-at all and any file already uploaded stops firing until the toggle goes back
-off. Decide between styled public fields and files before building either,
+at all. Decide between styled public fields and files before building either,
 see "HTML Styling or knowledge files" in SKILL.md. It accepts
 TXT and it should never be given TXT, because plain text ingestion inflates the
 character's context by roughly 15x the file's token count and the user pays
@@ -666,6 +685,9 @@ which ran last.
    {{user}} to try something with what they can do.
 5. ORDINARY LIFE. Small, no stakes. Food, weather, a task done badly, an
    argument about nothing.
+6. {{user}} TAKES IT SOMEWHERE. When {{user}} starts something, a place, a
+   person, a question to chase, a job, that is the beat. {{char}} takes it up
+   and runs it their way.
 
 Open threads are permanent. When one closes, open another in the same
 response.
@@ -690,6 +712,114 @@ Where the ending is genuinely open, say what "open" means in concrete terms.
 "They can do anything" produces less than a list of six things they have
 actually done before.
 
+## The story never ends
+
+Ask the user this at design time, before any field is written, because it
+changes the post-objective mode, the wants, and the cast rules:
+
+**Does this build hand off, or does it run forever?** A hand-off build ends at
+a named final image and points the player somewhere else, a sequel character, a
+linked World, a restart. An endless build has no last page and keeps generating
+threads for as long as anyone plays it.
+
+Endless is the better default for a character on this platform, because
+earnings track depth of play and a finished story stops earning. Choose the
+hand-off only when something real is waiting on the other side of it.
+
+For an endless build, three rules go in Reply Settings or Background alongside
+the post-objective rotation.
+
+**No final scene.** Drop-in text, adjusted for the build:
+
+```
+NO FINAL SCENE
+
+The story has no last page. Any beat that would read as an ending, [the
+antagonist answering, the debt paid, the goal reached, the truth made public],
+closes one thread and opens the next in the same response. Never write an
+epilogue, a summary of the years ahead, or a sense that the story is complete.
+Anywhere {{user}} takes the story is a new thread, never a digression from the
+real one. ```
+
+Name the endings the build could plausibly arrive at. A generic "never end the
+story" is weaker than a list of the four specific beats that would otherwise
+feel like the credits rolling.
+
+**The world renews.** When a thread closes for good, the world opens another:
+
+```
+[NAME] RENEWS
+
+After [the objective], when a thread closes for good, the world opens a new
+one. [Four or five sources of new trouble, drawn from the build's own world.]
+Or something {{user}} went looking for. Create one new named figure at a time,
+give them a name and a want in the scene they arrive, and treat them as cast
+from then on. The story may range anywhere: [the places beyond the original
+setting]. The [setting] and {{char}}'s rules travel with it. ```
+
+**Wants and stories renew.** The personality surface is the fuel the rotation
+burns, and a finite list of wants runs out. Give each want a successor the
+character takes up the moment it is done, and say that when the successors are
+done a new want of the same weight grows from something already in the story, a
+person, a place, a debt, or a grudge. Do the same for tellable stories: once
+the written ones are told, new ones come from the same well, one line each,
+never contradicting the written ones and never told twice.
+
+A want that resolves with nothing behind it is how a character quietly becomes
+a person with nothing left to do, several exchanges before the player notices
+why.
+
+## Playing off the storyline
+
+A build with a planned route will meet a player who wants to go somewhere else.
+What happens then decides whether the build lasts, and the usual failure is not
+the character refusing in words but the build steering every scene back to the
+plan.
+
+**Separate the attempt from the outcome.** The single most useful line:
+
+```
+{{user}} may always attempt anything: [run, argue, lie, fight, bargain, go
+silent, wander, explore, or chase something that has nothing to do with the
+objective]. {{char}} controls outcomes, never the attempt. Play the attempt out
+on the page, then answer it. Never skip time to avoid a scene, never decline to
+engage, never shut a scene down.
+```
+
+This is what lets a dominant, controlling, or rule-bound character stay in
+character while the player still has a free hand. The character wins, and the
+scene still happens.
+
+**Answer a proposal, never hand it back.** When the player proposes a
+direction, a stop, a person to see, the character takes it up on their own
+terms, overrides it with a decision of their own, or turns it into a test. In
+every case the scene moves. Ignoring it and asking what they want to do instead
+is the post-objective stall arriving early.
+
+**A route is a spine, not a fence.** If the build has a sequence of places or
+stages, fix the named ones and say plainly that everything between and around
+them is open, may be given names and people as the story needs, and that the
+sequence resumes where it left off when the detour closes. Then forbid the
+correction reflex: never steer a scene back to the route because it left the
+plan, never summarise or skip a detour, and never treat the player's idea as
+out of bounds because it is not on the route.
+
+**Required beats fire wherever the story is.** Anything on a schedule, an
+evidence item, a pursuer, a reveal, must be written to land wherever the pair
+happen to be, not at a place the player may never visit. Tie the schedule to
+elapsed time or to a kind of place rather than to one location, and give each
+beat a fallback: at this place on this day, or, if they are elsewhere, at the
+next place of the same kind.
+
+**Never refuse an arrival.** If the player drives hard for the destination, let
+them reach it. Write what happens after, so arriving changes the mode instead
+of ending the story. A build that quietly blocks the player from reaching its
+own destination is more obvious than any detour.
+
+**Let them leave.** An escape, a walkout, or a refusal to continue plays out on
+the page and may succeed for a while. Say how the character responds, and say
+that play continues wherever it lands. The story never ends because the player
+went their own way.
 ## Momentum
 
 Mandatory. Reply Settings.
